@@ -55,7 +55,9 @@ var UIController = (function() {
         inputType: '.add__type',
         inputDescription : '.add__description',
         inputValue : '.add__value',
-        inputBtn : '.add__btn'
+        inputBtn : '.add__btn',
+        incomeContainer : '.income__list',
+        expenseContainer : '.expenses__list'
     }
     
     return {
@@ -67,6 +69,27 @@ var UIController = (function() {
 
             }
         },
+        addListItem: function(obj, type){
+            var html, newHtml, element
+            // Create Html String with placeholder test
+            if(type === 'income'){
+                element = DOMString.incomeContainer;
+                html = '<div class="item clearfix" id="income-%id%"><div class="item__description">%description%</div><div class="right clearfix"> <div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+            }else if(type === 'expense'){
+                element = DOMString.expenseContainer;
+                html = '<div class="item clearfix" id="expense-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+
+            }
+
+            // Replace the placeholder text with actual data
+            newHtml = html.replace('%id%', obj.id);
+            newHtml = newHtml.replace('%description%', obj.description);
+            newHtml = newHtml.replace('%value%', obj.value);
+
+            //insert the Html into DOM
+            document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
+        },
+
         getDomStrings : function(){
             return DOMString;
         }
@@ -95,6 +118,7 @@ var controller = (function(budgetCtrl, UICtrl){
         console.log(newItem);
 
         //2.add item to budget controller
+        UICtrl.addListItem(newItem, input.type);
 
         //3.add item to ui
 
