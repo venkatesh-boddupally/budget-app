@@ -137,6 +137,11 @@ var UIController = (function() {
             //insert the Html into DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
         },
+        deleteListItem : function(selectorID){
+            var el = document.getElementById(selectorID);
+            el.parentNode.removeChild(el);
+        },
+
         displayBudget: function(obj){
             document.querySelector(DOMString.budgetLabel).textContent = obj.budget;
             document.querySelector(DOMString.incomeLabel).textContent = obj.totalInc;
@@ -228,12 +233,13 @@ var controller = (function(budgetCtrl, UICtrl){
             ID = parseInt(splitID[1]);
             
             // 1. delete the item from the data structure
-            UICtrl.deleteItem(type, ID);
+            budgetCtrl.deleteItem(type, ID);
 
             //2. delete the item from the ui
-
+            UICtrl.deleteListItem(itemID);
 
             //3.update and show the new budget
+            updateBudget();
         }
 
     };
